@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet"><style>body{margin:0;background:#e9e7e2;font-family:system-ui,sans-serif}a{color:inherit;text-decoration:none}a:hover{text-decoration:underline}.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}.dv-tid{font:600 10px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1a1a1a;color:#fff;border-radius:4px;text-decoration:none}.dv-tname{font:600 13px/1.2 system-ui,sans-serif;color:#1a1a1a}.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}.dv-oid{font:600 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1a1a1a;border-radius:5px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11px/1.3 system-ui,sans-serif;color:rgba(0,0,0,.55)}.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);overflow:hidden}.dv-opt:target .dv-oid{background:#2a78d6;color:#fff}.dv-next{margin:22px 0 0;font:12px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.5)}.dv-note{font:400 11px/1.5 system-ui,sans-serif;color:rgba(0,0,0,.55);max-width:1180px;margin:0}</style></helmet>
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Three typographic directions — landing, detail template, mobile card stack</span></div>
+<p class="dv-note" style="margin-bottom:24px">Assumptions: name/positioning are placeholders; diagram slots are striped placeholders for your own images. Every direction is dark-first, no gradients, no illustration. They differ in type pairing (sans+mono / serif+mono / mono-led), density (dense / airy / medium), and card separation (bordered / lifted / flush with rules). Each direction shows the landing page at 1180px, the detail template, and how the card row collapses at 390px.</p>
+
+<!-- ===================== 1a ===================== -->
+<div class="dv-opts" style="margin-bottom:44px">
+<div class="dv-opt" id="1a"><div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Manual — IBM Plex Sans + Plex Mono · dense · bordered cards · 13–14px body</div>
+<div class="dv-card" style="width:1180px;background:#0c0e11;color:#d9dde3;font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55">
+  <div data-screen-label="1a landing" style="max-width:1040px;margin:0 auto;padding:40px 40px 0">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding-bottom:28px;border-bottom:1px solid #23272f">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="font-size:20px;font-weight:600;letter-spacing:-.01em">Daniel Okafor</div>
+        <div style="color:#8b929c;font-size:14px;max-width:560px">SAP Basis and performance engineer, now building developer tooling. Fortune 500 load testing background applied to MCP servers, retrieval systems and agent workflows.</div>
+      </div>
+      <div style="display:flex;gap:18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#d9dde3;white-space:nowrap;padding-top:4px">
+        <a href="#" style="border-bottom:1px solid #3a404a;padding-bottom:1px">github</a><a href="#" style="border-bottom:1px solid #3a404a;padding-bottom:1px">linkedin</a><a href="#" style="border-bottom:1px solid #3a404a;padding-bottom:1px">resume.pdf</a>
+      </div>
+    </div>
+    <div style="display:flex;align-items:baseline;justify-content:space-between;padding:28px 0 14px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b929c">Featured projects</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">04</div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+      <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 18px 16px;background:#12151a;border:1px solid #23272f;border-radius:4px;min-height:150px;text-decoration:none">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-weight:600;font-size:15px">Blood on the Clocktower Companion</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">01</div></div>
+        <div style="color:#8b929c;font-size:13.5px">A web app for running the social deduction game.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">[STACK]</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 18px 16px;background:#12151a;border:1px solid #23272f;border-radius:4px;min-height:150px;text-decoration:none">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-weight:600;font-size:15px">S/4HANA Monitoring MCP Server</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">02</div></div>
+        <div style="color:#8b929c;font-size:13.5px">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:auto;padding-top:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">Python</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">MCP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">SAP interfaces</span><span style="margin-left:auto;font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:.02em;padding:2px 8px;border-radius:3px;background:oklch(78% 0.13 75 / .14);color:oklch(82% 0.13 75)">Proprietary — architecture writeup</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 18px 16px;background:#12151a;border:1px solid #23272f;border-radius:4px;min-height:150px;text-decoration:none">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-weight:600;font-size:15px">Steam Achievement RAG</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">03</div></div>
+        <div style="color:#8b929c;font-size:13.5px">Retrieval-augmented generation over Steam achievement data.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">Python</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">embeddings</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">vector search</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 18px 16px;background:#12151a;border:1px solid #23272f;border-radius:4px;min-height:150px;text-decoration:none">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><div style="font-weight:600;font-size:15px">Claude Skills</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">04</div></div>
+        <div style="color:#8b929c;font-size:13.5px">Custom agent skills for development workflows.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">Markdown</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">agent tooling</span></div>
+      </a>
+    </div>
+  </div>
+  <div style="margin-top:44px;background:#12151a;border-top:1px solid #23272f;border-bottom:1px solid #23272f;background-image:radial-gradient(#242932 1px, transparent 1px);background-size:18px 18px">
+    <div style="max-width:1040px;margin:0 auto;padding:40px 40px 44px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px;align-items:start">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:oklch(82% 0.13 75)">Professional work</div>
+        <div style="font-size:22px;font-weight:600;letter-spacing:-.01em;line-height:1.25">S/4HANA Analysis Tool Suite</div>
+        <div style="color:#b4bac3;font-size:14px;line-height:1.6;text-wrap:pretty">Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views that the standard transactions do not offer: release-over-release response time, batch-window contention, and tenant-level growth forecasts.</div>
+        <div style="color:#b4bac3;font-size:14px;line-height:1.6;text-wrap:pretty">Used as the reference dataset for load-test sign-off across two major upgrade cycles. No public repository; the architecture is described here at the level of components and data flow.</div>
+      </div>
+      <div style="aspect-ratio:16/10;border:1px solid #2c313a;border-radius:4px;background:repeating-linear-gradient(135deg,#171a20 0 6px,#12151a 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">architecture diagram — 16:10</div>
+    </div>
+  </div>
+  <div style="max-width:1040px;margin:0 auto;padding:28px 40px 36px;display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;flex-wrap:wrap;gap:12px">
+    <a href="#" style="color:#d9dde3">all public repositories →</a>
+    <div style="display:flex;gap:18px"><a href="#">daniel@okafor.dev</a><span>© 2026</span></div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1a · detail template — left rail TOC, 13.5/1.65 body, 620px measure</div>
+<div class="dv-card" style="width:1180px;background:#0c0e11;color:#d9dde3;font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55">
+  <div data-screen-label="1a detail" style="max-width:1040px;margin:0 auto;padding:28px 40px 48px">
+    <div style="display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c;padding-bottom:24px;border-bottom:1px solid #23272f"><a href="#">← Daniel Okafor</a><div style="display:flex;gap:18px"><a href="#">github</a><a href="#">resume.pdf</a></div></div>
+    <div style="display:grid;grid-template-columns:200px minmax(0,1fr);gap:56px;padding-top:36px">
+      <div style="position:sticky;top:24px;align-self:start;display:flex;flex-direction:column;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:#8b929c">
+        <div style="letter-spacing:.08em;text-transform:uppercase;font-size:10.5px;margin-bottom:6px">Contents</div>
+        <a href="#" style="color:#d9dde3">Problem</a><a href="#">Approach</a><a href="#">Architecture</a><a href="#">Key decisions</a><a href="#">Outcome</a>
+      </div>
+      <div style="max-width:620px;display:flex;flex-direction:column;gap:18px;font-size:14.5px;line-height:1.65;color:#c4c9d1">
+        <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:oklch(82% 0.13 75)">Project 02 · Proprietary — architecture writeup</div>
+        <h1 style="margin:-6px 0 0;font-size:30px;line-height:1.2;font-weight:600;letter-spacing:-.015em;color:#e8ecf1">S/4HANA Monitoring MCP Server</h1>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-bottom:22px;border-bottom:1px solid #23272f"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">Python</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">MCP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">RFC</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">OData</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">S/4HANA 2023</span></div>
+        <h2 style="margin:10px 0 -6px;font-size:19px;font-weight:600;color:#e8ecf1;letter-spacing:-.01em">Problem</h2>
+        <p style="margin:0;text-wrap:pretty">SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
+        <p style="margin:0;text-wrap:pretty">The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+        <h2 style="margin:10px 0 -6px;font-size:19px;font-weight:600;color:#e8ecf1;letter-spacing:-.01em">Approach</h2>
+        <p style="margin:0;text-wrap:pretty">The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
+        <p style="margin:0;text-wrap:pretty">A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
+        <h2 style="margin:10px 0 -6px;font-size:19px;font-weight:600;color:#e8ecf1;letter-spacing:-.01em">Architecture</h2>
+        <div style="width:calc(100% + 200px + 56px);margin-left:calc(-200px - 56px);aspect-ratio:21/9;border:1px solid #2c313a;border-radius:4px;background:repeating-linear-gradient(135deg,#171a20 0 6px,#12151a 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">full-width architecture diagram — breaks out of the reading column</div>
+        <p style="margin:0;text-wrap:pretty">Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+        <h2 style="margin:10px 0 -6px;font-size:19px;font-weight:600;color:#e8ecf1;letter-spacing:-.01em">Key decisions and tradeoffs</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;border-left:1px solid #23272f;padding-left:18px">
+          <div><div style="font-weight:600;color:#e8ecf1">Read-only by construction.</div><div>No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</div></div>
+          <div><div style="font-weight:600;color:#e8ecf1">Summarise in the adapter, not the prompt.</div><div>Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</div></div>
+          <div><div style="font-weight:600;color:#e8ecf1">Per-tool rate limits tuned to ST03N averages.</div><div>Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</div></div>
+        </div>
+        <h2 style="margin:10px 0 -6px;font-size:19px;font-weight:600;color:#e8ecf1;letter-spacing:-.01em">Outcome</h2>
+        <p style="margin:0;text-wrap:pretty">Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1a · 390px — cards stack single-column, numbers stay right-aligned</div>
+<div class="dv-card" style="width:390px;background:#0c0e11;color:#d9dde3;font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.55">
+  <div data-screen-label="1a mobile" style="padding:28px 20px 32px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-size:18px;font-weight:600">Daniel Okafor</div>
+    <div style="color:#8b929c;font-size:13.5px">SAP Basis and performance engineer, now building developer tooling.</div>
+    <div style="display:flex;gap:16px;font-family:'IBM Plex Mono',monospace;font-size:12px;padding-bottom:20px;border-bottom:1px solid #23272f"><a href="#">github</a><a href="#">linkedin</a><a href="#">resume.pdf</a></div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#8b929c;padding-top:6px">Featured projects</div>
+    <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#12151a;border:1px solid #23272f;border-radius:4px">
+      <div style="display:flex;justify-content:space-between;gap:12px"><div style="font-weight:600">Blood on the Clocktower Companion</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">01</div></div>
+      <div style="color:#8b929c;font-size:13px">A web app for running the social deduction game.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">[STACK]</span></div>
+    </a>
+    <a href="#" style="display:flex;flex-direction:column;gap:8px;padding:16px;background:#12151a;border:1px solid #23272f;border-radius:4px">
+      <div style="display:flex;justify-content:space-between;gap:12px"><div style="font-weight:600">S/4HANA Monitoring MCP Server</div><div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c">02</div></div>
+      <div style="color:#8b929c;font-size:13px">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">Python</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">MCP</span><span style="font-family:'IBM Plex Mono',monospace;font-size:11px;padding:2px 7px;border:1px solid #2c313a;border-radius:3px;color:#b4bac3">SAP interfaces</span></div>
+      <div><span style="font-size:11px;font-weight:500;padding:2px 8px;border-radius:3px;background:oklch(78% 0.13 75 / .14);color:oklch(82% 0.13 75)">Proprietary — architecture writeup</span></div>
+    </a>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#8b929c;text-align:center">… 03, 04, then the band stacks text over diagram</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ===================== 1b ===================== -->
+<div class="dv-opts" style="margin-bottom:44px">
+<div class="dv-opt" id="1b"><div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Editorial — Source Serif 4 + JetBrains Mono · airy · lifted borderless cards · 17px body · light paper band</div>
+<div class="dv-card" style="width:1180px;background:#111110;color:#e8e4dc;font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6">
+  <div data-screen-label="1b landing" style="max-width:980px;margin:0 auto;padding:64px 40px 0">
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:680px">
+      <div style="font-size:34px;font-weight:500;letter-spacing:-.015em;line-height:1.15">Daniel Okafor</div>
+      <div style="color:#b3ada2;font-size:19px;line-height:1.5;text-wrap:pretty">SAP Basis and performance engineer building developer tooling. Twelve years of Fortune 500 systems work, now applied to MCP servers, retrieval and agent workflows.</div>
+      <div style="display:flex;gap:22px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#e8e4dc;padding-top:6px"><a href="#" style="color:oklch(78% 0.09 180)">GitHub</a><a href="#" style="color:oklch(78% 0.09 180)">LinkedIn</a><a href="#" style="color:oklch(78% 0.09 180)">Resume (PDF)</a></div>
+    </div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8f8a80;padding:72px 0 20px">Featured projects</div>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+      <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:28px 28px 24px;background:#1b1a18;border-radius:10px;min-height:190px">
+        <div style="font-size:22px;font-weight:500;letter-spacing:-.01em;line-height:1.25">Blood on the Clocktower Companion</div>
+        <div style="color:#b3ada2;font-size:16px;line-height:1.5">A web app for running the social deduction game.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80"><span>[STACK]</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:28px 28px 24px;background:#1b1a18;border-radius:10px;min-height:190px">
+        <div style="font-size:22px;font-weight:500;letter-spacing:-.01em;line-height:1.25">S/4HANA Monitoring MCP Server</div>
+        <div style="color:#b3ada2;font-size:16px;line-height:1.5">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:auto;padding-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80"><span>Python</span><span>MCP</span><span>SAP interfaces</span><span style="margin-left:auto;white-space:nowrap;font-size:11px;letter-spacing:.04em;padding:3px 9px;border:1px solid oklch(78% 0.09 180 / .5);border-radius:99px;color:oklch(78% 0.09 180)">Proprietary — architecture writeup</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:28px 28px 24px;background:#1b1a18;border-radius:10px;min-height:190px">
+        <div style="font-size:22px;font-weight:500;letter-spacing:-.01em;line-height:1.25">Steam Achievement RAG</div>
+        <div style="color:#b3ada2;font-size:16px;line-height:1.5">Retrieval-augmented generation over Steam achievement data.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:auto;padding-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80"><span>Python</span><span>embeddings</span><span>vector search</span></div>
+      </a>
+      <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:28px 28px 24px;background:#1b1a18;border-radius:10px;min-height:190px">
+        <div style="font-size:22px;font-weight:500;letter-spacing:-.01em;line-height:1.25">Claude Skills</div>
+        <div style="color:#b3ada2;font-size:16px;line-height:1.5">Custom agent skills for development workflows.</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:auto;padding-top:10px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80"><span>Markdown</span><span>agent tooling</span></div>
+      </a>
+    </div>
+  </div>
+  <div style="margin-top:80px;background:#ece8df;color:#1c1b19">
+    <div style="max-width:980px;margin:0 auto;padding:64px 40px 72px;display:flex;flex-direction:column;gap:28px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#6b665c"><span>Professional work</span><span>No public repository</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div style="font-size:34px;font-weight:500;letter-spacing:-.015em;line-height:1.15">S/4HANA Analysis Tool Suite</div>
+          <div style="font-size:17px;line-height:1.6;color:#3d3a34;text-wrap:pretty">Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views the standard transactions do not offer: release-over-release response time, batch-window contention and tenant-level growth forecasts.</div>
+          <div style="font-size:17px;line-height:1.6;color:#3d3a34;text-wrap:pretty">Used as the reference dataset for load-test sign-off across two major upgrade cycles. The architecture is described here at the level of components and data flow.</div>
+        </div>
+        <div style="aspect-ratio:4/3;border-radius:8px;background:repeating-linear-gradient(135deg,#e2ddd2 0 6px,#e9e5db 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#6b665c">architecture diagram — 4:3</div>
+      </div>
+    </div>
+  </div>
+  <div style="max-width:980px;margin:0 auto;padding:36px 40px 44px;display:flex;justify-content:space-between;align-items:baseline;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f8a80;flex-wrap:wrap;gap:12px">
+    <a href="#" style="color:oklch(78% 0.09 180)">All public repositories</a>
+    <a href="#">daniel@okafor.dev</a>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1b · detail template — single centered column, 18/1.7 serif body, 660px measure</div>
+<div class="dv-card" style="width:1180px;background:#111110;color:#e8e4dc;font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.7">
+  <div data-screen-label="1b detail" style="max-width:660px;margin:0 auto;padding:40px 40px 72px;display:flex;flex-direction:column;gap:22px">
+    <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f8a80;padding-bottom:40px"><a href="#">← Daniel Okafor</a><a href="#">GitHub</a></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:oklch(78% 0.09 180)">Architecture writeup · proprietary</div>
+    <h1 style="margin:-8px 0 0;font-size:40px;line-height:1.15;font-weight:500;letter-spacing:-.02em">S/4HANA Monitoring MCP Server</h1>
+    <div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f8a80;padding-bottom:28px;border-bottom:1px solid #2a2926"><span>Python</span><span>MCP</span><span>RFC</span><span>OData</span><span>S/4HANA 2023</span></div>
+    <h2 style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Problem</h2>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+    <h2 style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Approach</h2>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
+    <h2 style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Architecture</h2>
+    <div style="width:980px;margin-left:-200px;aspect-ratio:21/9;border-radius:8px;background:repeating-linear-gradient(135deg,#1b1a18 0 6px,#161513 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80">full-width architecture diagram — 980px, breaks out of the 580px column</div>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+    <h2 style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Key decisions and tradeoffs</h2>
+    <div style="display:flex;flex-direction:column;gap:20px;color:#d4cfc5">
+      <div><span style="color:#e8e4dc;font-weight:600">Read-only by construction.</span> No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</div>
+      <div><span style="color:#e8e4dc;font-weight:600">Summarise in the adapter, not the prompt.</span> Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</div>
+      <div><span style="color:#e8e4dc;font-weight:600">Per-tool rate limits tuned to ST03N averages.</span> Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</div>
+    </div>
+    <h2 style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Outcome</h2>
+    <p style="margin:0;color:#d4cfc5;text-wrap:pretty">Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1b · 390px — status pill drops below the title; tags remain a plain mono run</div>
+<div class="dv-card" style="width:390px;background:#111110;color:#e8e4dc;font-family:'Source Serif 4',Georgia,serif;font-size:16px;line-height:1.55">
+  <div data-screen-label="1b mobile" style="padding:40px 22px 32px;display:flex;flex-direction:column;gap:16px">
+    <div style="font-size:28px;font-weight:500;letter-spacing:-.015em">Daniel Okafor</div>
+    <div style="color:#b3ada2;font-size:16px">SAP Basis and performance engineer building developer tooling.</div>
+    <div style="display:flex;gap:18px;font-family:'JetBrains Mono',monospace;font-size:13px;color:oklch(78% 0.09 180)"><a href="#">GitHub</a><a href="#">LinkedIn</a><a href="#">Resume</a></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#8f8a80;padding-top:28px">Featured projects</div>
+    <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:22px;background:#1b1a18;border-radius:10px">
+      <div style="font-size:20px;font-weight:500;line-height:1.25">Blood on the Clocktower Companion</div>
+      <div style="color:#b3ada2;font-size:15px">A web app for running the social deduction game.</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80">[STACK]</div>
+    </a>
+    <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:22px;background:#1b1a18;border-radius:10px">
+      <div style="font-size:20px;font-weight:500;line-height:1.25">S/4HANA Monitoring MCP Server</div>
+      <div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.04em;padding:4px 9px;border:1px solid oklch(78% 0.09 180 / .5);border-radius:99px;color:oklch(78% 0.09 180)">Proprietary — architecture writeup</span></div>
+      <div style="color:#b3ada2;font-size:15px">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+      <div style="display:flex;gap:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80"><span>Python</span><span>MCP</span><span>SAP interfaces</span></div>
+    </a>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8f8a80;text-align:center">… paper band follows, diagram under text</div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ===================== 1c ===================== -->
+<div class="dv-opts">
+<div class="dv-opt" id="1c"><div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Ledger — Geist Mono headings + Geist body · medium density · flush cards separated by rules only · 4-across row</div>
+<div class="dv-card" style="width:1180px;background:#0a0a0b;color:#e4e4e7;font-family:'Geist',sans-serif;font-size:15px;line-height:1.55">
+  <div data-screen-label="1c landing" style="padding:0 48px">
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:44px 0 36px;border-bottom:1px solid #222226">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f">daniel.okafor</div>
+      <div style="display:flex;justify-content:space-between;gap:32px;align-items:flex-start">
+        <div style="display:flex;flex-direction:column;gap:8px;max-width:600px">
+          <div style="font-family:'Geist Mono',monospace;font-size:22px;font-weight:500;letter-spacing:-.02em">Daniel Okafor</div>
+          <div style="color:#a1a1aa;text-wrap:pretty">SAP Basis and performance engineer building developer tooling. Fortune 500 load-testing background, now applied to MCP servers, retrieval systems and agent workflows.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px;font-family:'Geist Mono',monospace;font-size:13px;text-align:right;white-space:nowrap"><a href="#" style="color:oklch(78% 0.11 265)">github ↗</a><a href="#" style="color:oklch(78% 0.11 265)">linkedin ↗</a><a href="#" style="color:oklch(78% 0.11 265)">resume.pdf ↓</a></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:36px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">Featured projects<br><span style="color:#55555e">4 entries</span></div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid #222226;border-bottom:1px solid #222226">
+        <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:22px 20px 22px 0;border-right:1px solid #222226;margin-right:20px">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">01</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500;letter-spacing:-.01em;line-height:1.35">Blood on the Clocktower Companion</div>
+          <div style="color:#a1a1aa;font-size:14px;text-wrap:pretty">A web app for running the social deduction game.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">[STACK]</span></div>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:22px 20px 22px 0;border-right:1px solid #222226;margin-right:20px">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">02</div><div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:oklch(78% 0.11 265);display:flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:oklch(78% 0.11 265);display:inline-block"></span>Proprietary · writeup</div></div>
+          <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500;letter-spacing:-.01em;line-height:1.35">S/4HANA Monitoring MCP Server</div>
+          <div style="color:#a1a1aa;font-size:14px;text-wrap:pretty">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">Python</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">MCP</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">SAP interfaces</span></div>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:22px 20px 22px 0;border-right:1px solid #222226;margin-right:20px">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">03</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500;letter-spacing:-.01em;line-height:1.35">Steam Achievement RAG</div>
+          <div style="color:#a1a1aa;font-size:14px;text-wrap:pretty">Retrieval-augmented generation over Steam achievement data.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">Python</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">embeddings</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">vector search</span></div>
+        </a>
+        <a href="#" style="display:flex;flex-direction:column;gap:12px;padding:22px 0">
+          <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">04</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500;letter-spacing:-.01em;line-height:1.35">Claude Skills</div>
+          <div style="color:#a1a1aa;font-size:14px;text-wrap:pretty">Custom agent skills for development workflows.</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:8px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">Markdown</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">agent tooling</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div style="margin-top:56px;background:#111114;border-top:1px solid #2a2a30;border-bottom:1px solid #2a2a30;box-shadow:inset 0 1px 0 #1c1c21, inset 0 -1px 0 #1c1c21">
+    <div style="padding:48px 48px 52px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:oklch(78% 0.11 265);padding-top:4px">Professional work<br><span style="color:#55555e">no public repo</span></div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;align-items:start">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;letter-spacing:-.02em;line-height:1.25">S/4HANA Analysis Tool Suite</div>
+          <div style="color:#c4c4cb;font-size:15px;line-height:1.65;text-wrap:pretty">Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views the standard transactions do not offer: release-over-release response time, batch-window contention and tenant-level growth forecasts.</div>
+          <div style="color:#c4c4cb;font-size:15px;line-height:1.65;text-wrap:pretty">Used as the reference dataset for load-test sign-off across two major upgrade cycles. The architecture is described here at the level of components and data flow.</div>
+        </div>
+        <div style="aspect-ratio:16/10;border:1px solid #2a2a30;border-radius:6px;background:repeating-linear-gradient(135deg,#17171b 0 6px,#111114 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:12px;color:#86868f">architecture diagram — 16:10</div>
+      </div>
+    </div>
+  </div>
+  <div style="padding:32px 48px 40px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;font-family:'Geist Mono',monospace;font-size:13px;color:#86868f">
+    <div>© 2026</div>
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px"><a href="#" style="color:oklch(78% 0.11 265)">all public repositories ↗</a><a href="#">daniel@okafor.dev</a></div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1c · detail template — section labels in the left margin column, 16/1.7 body, 640px measure</div>
+<div class="dv-card" style="width:1180px;background:#0a0a0b;color:#e4e4e7;font-family:'Geist',sans-serif;font-size:16px;line-height:1.7">
+  <div data-screen-label="1c detail" style="padding:0 48px 64px">
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:28px 0;border-bottom:1px solid #222226;font-family:'Geist Mono',monospace;font-size:13px;color:#86868f"><a href="#">← daniel.okafor</a><div style="display:flex;justify-content:space-between"><span>projects / 02</span><a href="#" style="color:oklch(78% 0.11 265)">github ↗</a></div></div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:44px 0 36px;border-bottom:1px solid #222226">
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:oklch(78% 0.11 265);display:flex;align-items:center;gap:6px;align-self:start;padding-top:8px"><span style="width:6px;height:6px;border-radius:50%;background:oklch(78% 0.11 265);display:inline-block"></span>PROPRIETARY — WRITEUP</div>
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <h1 style="margin:0;font-family:'Geist Mono',monospace;font-size:32px;line-height:1.2;font-weight:500;letter-spacing:-.02em">S/4HANA Monitoring MCP Server</h1>
+        <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">Python</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">MCP</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">RFC</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">OData</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">S/4HANA 2023</span></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:40px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">01 Problem</div>
+      <div style="max-width:640px;display:flex;flex-direction:column;gap:18px;color:#c4c4cb">
+        <p style="margin:0;text-wrap:pretty">SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
+        <p style="margin:0;text-wrap:pretty">The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:40px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">02 Approach</div>
+      <div style="max-width:640px;display:flex;flex-direction:column;gap:18px;color:#c4c4cb">
+        <p style="margin:0;text-wrap:pretty">The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
+        <p style="margin:0;text-wrap:pretty">A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:40px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">03 Architecture</div>
+      <div style="display:flex;flex-direction:column;gap:18px;color:#c4c4cb">
+        <div style="width:calc(100% + 252px);margin-left:-252px;margin-top:32px;aspect-ratio:21/9;border:1px solid #2a2a30;border-radius:6px;background:repeating-linear-gradient(135deg,#17171b 0 6px,#111114 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'Geist Mono',monospace;font-size:12px;color:#86868f">full-width architecture diagram — spans label column and body</div>
+        <p style="margin:0;max-width:640px;text-wrap:pretty">Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:40px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">04 Key decisions<br><span style="color:#55555e">and tradeoffs</span></div>
+      <div style="max-width:640px;display:grid;grid-template-columns:minmax(0,1fr);gap:0;color:#c4c4cb;border-top:1px solid #222226">
+        <div style="padding:16px 0;border-bottom:1px solid #222226"><div style="color:#e4e4e7;font-weight:500">Read-only by construction.</div><div style="font-size:15px">No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</div></div>
+        <div style="padding:16px 0;border-bottom:1px solid #222226"><div style="color:#e4e4e7;font-weight:500">Summarise in the adapter, not the prompt.</div><div style="font-size:15px">Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</div></div>
+        <div style="padding:16px 0;border-bottom:1px solid #222226"><div style="color:#e4e4e7;font-weight:500">Per-tool rate limits tuned to ST03N averages.</div><div style="font-size:15px">Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</div></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:40px 0 0">
+      <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:4px">05 Outcome</div>
+      <div style="max-width:640px;color:#c4c4cb"><p style="margin:0;text-wrap:pretty">Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt"><div class="dv-olabel">1c · 390px — label column folds above content; 4-across becomes a ruled list</div>
+<div class="dv-card" style="width:390px;background:#0a0a0b;color:#e4e4e7;font-family:'Geist',sans-serif;font-size:15px;line-height:1.55">
+  <div data-screen-label="1c mobile" style="padding:32px 22px 32px;display:flex;flex-direction:column;gap:14px">
+    <div style="font-family:'Geist Mono',monospace;font-size:20px;font-weight:500;letter-spacing:-.02em">Daniel Okafor</div>
+    <div style="color:#a1a1aa;font-size:14px">SAP Basis and performance engineer building developer tooling.</div>
+    <div style="display:flex;gap:16px;font-family:'Geist Mono',monospace;font-size:13px;color:oklch(78% 0.11 265);padding-bottom:22px;border-bottom:1px solid #222226"><a href="#">github ↗</a><a href="#">linkedin ↗</a><a href="#">resume.pdf ↓</a></div>
+    <div style="font-family:'Geist Mono',monospace;font-size:13px;color:#86868f;padding-top:8px">Featured projects <span style="color:#55555e">/ 4</span></div>
+    <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 0;border-top:1px solid #222226">
+      <div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">01</div>
+      <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500">Blood on the Clocktower Companion</div>
+      <div style="color:#a1a1aa;font-size:14px">A web app for running the social deduction game.</div>
+      <div style="display:flex;gap:6px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">[STACK]</span></div>
+    </a>
+    <a href="#" style="display:flex;flex-direction:column;gap:10px;padding:18px 0;border-top:1px solid #222226;border-bottom:1px solid #222226">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-family:'Geist Mono',monospace;font-size:12px;color:#55555e">02</div><div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:oklch(78% 0.11 265);display:flex;align-items:center;gap:6px"><span style="width:6px;height:6px;border-radius:50%;background:oklch(78% 0.11 265);display:inline-block"></span>Proprietary — writeup</div></div>
+      <div style="font-family:'Geist Mono',monospace;font-size:15px;font-weight:500">S/4HANA Monitoring MCP Server</div>
+      <div style="color:#a1a1aa;font-size:14px">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px"><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">Python</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">MCP</span><span style="font-family:'Geist Mono',monospace;font-size:11.5px;padding:3px 7px;background:#16161a;border-radius:4px;color:#a1a1aa;white-space:nowrap">SAP interfaces</span></div>
+    </a>
+    <div style="font-family:'Geist Mono',monospace;font-size:11px;color:#55555e;text-align:center">… 03, 04; band label stacks above the paragraph</div>
+  </div>
+</div>
+</div>
+</div>
+
+<p class="dv-next">Try next: "go with <a class="dv-oid" href="#1a">1a</a> but use the paper band from <a class="dv-oid" href="#1b">1b</a>" · "<a class="dv-oid" href="#1c">1c</a> with a 2×2 card grid instead of 4-across" · "build the chosen direction as a real responsive page"</p>
+</section>
+</x-dc>
+</body>
+</html>

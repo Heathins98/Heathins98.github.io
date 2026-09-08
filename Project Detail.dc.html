@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"><style>body{margin:0;background:#111110;color:#e8e4dc;font-family:'Source Serif 4',Georgia,serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased}a{color:oklch(78% 0.09 180);text-decoration:none}a:hover{text-decoration:underline;text-underline-offset:3px}</style></helmet>
+<!-- Template: duplicate this file per project. Sections: Problem · Approach · Architecture (full-width diagram) · Key decisions · Outcome. Reading column is 660px incl. padding; the diagram breaks out to min(980px, viewport). -->
+<article data-screen-label="Project detail" style="width:100%;max-width:660px;box-sizing:border-box;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:22px">
+  <nav style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;padding-bottom:40px">
+    <a href="Landing.dc.html" style="color:#8f8a80">← [Your Name]</a>
+    <a href="https://github.com/">GitHub</a>
+  </nav>
+  <!-- Header -->
+  <div style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:oklch(78% 0.09 180)">Architecture writeup · proprietary</div>
+  <h1 style="margin:-8px 0 0;font-size:clamp(30px,6vw,40px);line-height:1.15;font-weight:500;letter-spacing:-.02em">S/4HANA Monitoring MCP Server</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:8px 16px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f8a80;padding-bottom:28px;border-bottom:1px solid #2a2926"><span>Python</span><span>MCP</span><span>RFC</span><span>OData</span><span>S/4HANA 2023</span></div>
+
+  <h2 id="problem" style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Problem</h2>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+
+  <h2 id="approach" style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Approach</h2>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
+  <!-- Inline code sample pattern -->
+  <pre style="margin:8px 0;padding:18px 20px;background:#1b1a18;border-radius:8px;overflow-x:auto;font-family:'JetBrains Mono',monospace;font-size:13px;line-height:1.6;color:#d4cfc5">tools:
+  - get_workprocess_overview   # SM50 / SM66
+  - get_response_time_stats    # ST03N, dialog + background
+  - list_short_dumps           # ST22, last 24h by default
+  - get_tablespace_growth      # DB02
+  - get_transport_queue        # STMS</pre>
+
+  <h2 id="architecture" style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Architecture</h2>
+  <!-- Full-width diagram slot: replace the div with <img src="diagrams/mcp-server.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper. -->
+  <div style="width:min(980px, 100vw - 48px);margin-left:calc(50% - min(980px, 100vw - 48px) / 2);aspect-ratio:21/9;border-radius:8px;background:repeating-linear-gradient(135deg,#1b1a18 0 6px,#161513 6px 12px);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:#8f8a80;text-align:center;padding:0 16px;box-sizing:border-box">full-width architecture diagram</div>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+
+  <h2 id="decisions" style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Key decisions and tradeoffs</h2>
+  <div style="display:flex;flex-direction:column;gap:20px;color:#d4cfc5">
+    <p style="margin:0;text-wrap:pretty"><strong style="color:#e8e4dc;font-weight:600">Read-only by construction.</strong> No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</p>
+    <p style="margin:0;text-wrap:pretty"><strong style="color:#e8e4dc;font-weight:600">Summarise in the adapter, not the prompt.</strong> Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</p>
+    <p style="margin:0;text-wrap:pretty"><strong style="color:#e8e4dc;font-weight:600">Per-tool rate limits tuned to ST03N averages.</strong> Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</p>
+  </div>
+
+  <h2 id="outcome" style="margin:16px 0 -8px;font-size:24px;font-weight:500;letter-spacing:-.01em">Outcome</h2>
+  <p style="margin:0;color:#d4cfc5;text-wrap:pretty">Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+
+  <footer style="margin-top:40px;padding-top:28px;border-top:1px solid #2a2926;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#8f8a80">
+    <a href="Landing.dc.html" style="color:#8f8a80">← All projects</a>
+    <a href="mailto:you@example.com" style="color:#8f8a80">you@example.com</a>
+  </footer>
+</article>
+</x-dc>
+</body>
+</html>

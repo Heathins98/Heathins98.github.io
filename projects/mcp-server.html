@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S/4HANA Monitoring MCP Server — Matthew Heath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+<article class="detail">
+  <nav class="detail-nav">
+    <a href="../index.html">← Matthew Heath</a>
+    <a href="index.html">All projects</a>
+  </nav>
+
+  <div class="detail-status">Architecture writeup · proprietary</div>
+  <h1>S/4HANA Monitoring MCP Server</h1>
+  <div class="detail-tags"><span>Python</span><span>MCP</span><span>RFC</span><span>OData</span><span>S/4HANA 2023</span></div>
+
+  <h2 id="problem">Problem</h2>
+  <p>SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
+  <p>The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+
+  <h2 id="approach">Approach</h2>
+  <p>The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
+  <p>A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
+  <pre>tools:
+  - get_workprocess_overview   # SM50 / SM66
+  - get_response_time_stats    # ST03N, dialog + background
+  - list_short_dumps           # ST22, last 24h by default
+  - get_tablespace_growth      # DB02
+  - get_transport_queue        # STMS</pre>
+
+  <h2 id="architecture">Architecture</h2>
+  <!-- Replace this div with <img src="../assets/diagrams/mcp-server.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
+  <div class="diagram-slot dark wide">full-width architecture diagram</div>
+  <p>Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+
+  <h2 id="decisions">Key decisions and tradeoffs</h2>
+  <div class="decision-list">
+    <p><strong>Read-only by construction.</strong> No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</p>
+    <p><strong>Summarise in the adapter, not the prompt.</strong> Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</p>
+    <p><strong>Per-tool rate limits tuned to ST03N averages.</strong> Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</p>
+  </div>
+
+  <h2 id="outcome">Outcome</h2>
+  <p>Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+
+  <footer class="detail-footer">
+    <a href="index.html">← All projects</a>
+    <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
+  </footer>
+</article>
+</body>
+</html>

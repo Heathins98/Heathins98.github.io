@@ -1,1 +1,83 @@
-<h1>hello</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matthew Heath</title>
+<meta name="description" content="SAP Basis and performance engineer building developer tooling.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="site-header container-wide">
+    <div class="intro">
+      <h1>Matthew Heath</h1>
+      <p>SAP Basis and performance engineer building developer tooling. Fortune 500 systems background, now applied to MCP servers, retrieval and agent workflows.</p>
+      <nav>
+        <a href="https://github.com/Heathins98">GitHub</a>
+        <a href="https://linkedin.com/">LinkedIn</a>
+        <a href="resume.pdf">Resume (PDF)</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container-wide">
+    <div class="mono-label section-label">Featured projects</div>
+    <div class="card-grid">
+      <!-- FEATURED-PROJECTS:START -->
+      <a href="projects/clocktower.html" class="card">
+        <div class="card-title">Blood on the Clocktower Companion</div>
+        <div class="card-desc">A web app for running the social deduction game.</div>
+        <div class="card-tags"><span>[STACK]</span></div>
+      </a>
+      <a href="projects/mcp-server.html" class="card">
+        <div class="card-title">S/4HANA Monitoring MCP Server</div>
+        <div class="card-desc">A Model Context Protocol server exposing live SAP system monitoring data to AI agents.</div>
+        <div class="card-tags">
+          <span>Python</span><span>MCP</span><span>SAP interfaces</span>
+          <span class="tag-pill">Proprietary — architecture writeup</span>
+        </div>
+      </a>
+      <a href="projects/steam-rag.html" class="card">
+        <div class="card-title">Steam Achievement RAG</div>
+        <div class="card-desc">Retrieval-augmented generation over Steam achievement data.</div>
+        <div class="card-tags">
+          <span>Python</span><span>embeddings</span><span>vector search</span>
+          <span class="tag-pill">No public repo yet</span>
+        </div>
+      </a>
+      <a href="projects/claude-skills.html" class="card">
+        <div class="card-title">Claude Skills</div>
+        <div class="card-desc">Custom agent skills for development workflows.</div>
+        <div class="card-tags"><span>Markdown</span><span>agent tooling</span></div>
+      </a>
+      <!-- FEATURED-PROJECTS:END -->
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="band-inner">
+      <div class="band-eyebrow"><span>Professional work</span><span>No public repository</span></div>
+      <div class="band-grid">
+        <div class="band-copy">
+          <h2><a href="experience.html">S/4HANA Analysis Tool Suite</a></h2>
+          <p>Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views the standard transactions do not offer: release-over-release response time, batch-window contention and tenant-level growth forecasts.</p>
+          <p>Used as the reference dataset for load-test sign-off across two major upgrade cycles. <a href="experience.html">The full writeup</a> covers the architecture at the level of components and data flow.</p>
+        </div>
+        <!-- Replace this div with <img src="assets/diagrams/analysis-suite.svg" alt="…" style="width:100%;border-radius:8px"> -->
+        <div class="diagram-slot">architecture diagram — 4:3</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <a href="repos.html" class="accent">All public repositories</a>
+    <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
+  </footer>
+
+</div>
+</body>
+</html>

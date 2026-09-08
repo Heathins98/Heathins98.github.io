@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>S/4HANA Analysis Tool Suite — Matthew Heath</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<article class="detail">
+  <nav class="detail-nav">
+    <a href="index.html">← Matthew Heath</a>
+  </nav>
+
+  <div class="detail-status">Professional work · no public repository</div>
+  <h1>S/4HANA Analysis Tool Suite</h1>
+
+  <h2 id="situation">Situation</h2>
+  <p>Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. Basis teams had the standard monitoring transactions (ST03N, DB02, SM50/66, ST22) but no way to compare across releases, tenants or upgrade windows — each screen showed a snapshot, not a trend, and building that trend by hand meant exporting the same transaction repeatedly and stitching spreadsheets together.</p>
+
+  <h2 id="constraint">Constraint</h2>
+  <p>Any tooling had to run against production and non-production systems without adding meaningful load, without a write path into those systems, and without depending on anyone's local machine — Basis staff needed the same numbers whether they pulled them the day of an upgrade or six months later during a capacity review.</p>
+
+  <h2 id="built">What was built</h2>
+  <p>The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views the standard transactions do not offer: release-over-release response time, batch-window contention and tenant-level growth forecasts.</p>
+  <!-- Replace this div with <img src="assets/diagrams/analysis-suite.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
+  <div class="diagram-slot dark wide">full-width architecture diagram</div>
+  <p>The architecture is described here at the level of components and data flow: a scheduled extraction layer against each SAP interface, a normalisation step that reconciles differing field names and units across releases, and a comparison layer that the trend views are built on top of.</p>
+
+  <h2 id="outcome">Outcome</h2>
+  <p>Used as the reference dataset for load-test sign-off across two major upgrade cycles. The code and any customer-specific detail are proprietary; this page describes the architecture and the problem it solved, not the implementation.</p>
+
+  <footer class="detail-footer">
+    <a href="index.html">← Back to projects</a>
+    <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
+  </footer>
+</article>
+</body>
+</html>
