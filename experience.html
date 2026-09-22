@@ -16,26 +16,86 @@
 
   <div class="detail-status">Professional work · no public repository</div>
   <h1>S/4HANA Analysis Tool Suite</h1>
+  <p class="detail-tagline">Turning raw SAP exports into stakeholder-ready decks in under a minute.</p>
+
+  <div class="stat-bar">
+    <div class="stat-tile"><span class="stat-value" data-target="8">0</span><span class="stat-label">hrs saved per consultant/week</span></div>
+    <div class="stat-tile"><span class="stat-value">30 sec</span><span class="stat-label">upload to deliverable</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="4">0</span><span class="stat-label">integrated tools</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="3">0</span><span class="stat-label">export formats</span></div>
+  </div>
 
   <h2 id="situation">Situation</h2>
-  <p>Enterprise performance and analysis tooling built inside a Fortune 500 SAP landscape. Basis teams had the standard monitoring transactions (ST03N, DB02, SM50/66, ST22) but no way to compare across releases, tenants or upgrade windows — each screen showed a snapshot, not a trend, and building that trend by hand meant exporting the same transaction repeatedly and stitching spreadsheets together.</p>
+  <div class="prose">
+    <p>Built for SAP service-delivery consultants, who use it across Fortune 500 customer engagements. Each engagement hands consultants raw SAP exports — SMON workload CSVs, ST03N performance data, SM13 background job logs — and the majority of engagement time was going into manual data extraction, spreadsheet wrangling and slide-building rather than analysis, repeated fresh for every customer.</p>
+  </div>
 
   <h2 id="constraint">Constraint</h2>
-  <p>Any tooling had to run against production and non-production systems without adding meaningful load, without a write path into those systems, and without depending on anyone's local machine — Basis staff needed the same numbers whether they pulled them the day of an upgrade or six months later during a capacity review.</p>
+  <div class="prose">
+    <p>The tool had to run as a shared, browser-based service that any consultant could use without a local Office install or per-machine setup, while handling real engagement-scale exports (ST03N files up to 50,000+ rows). Because it's shared infrastructure touching different customers' data across simultaneous engagements, it needed real hardening — CSRF-protected endpoints, CSP/HSTS/X-Frame-Options headers, auth — not a personal script someone runs locally.</p>
+  </div>
 
   <h2 id="built">What was built</h2>
-  <p>The suite pulls workload statistics, work-process state and short-dump history out of production systems on a schedule, normalises them into a single store, and gives Basis teams comparative views the standard transactions do not offer: release-over-release response time, batch-window contention and tenant-level growth forecasts.</p>
-  <!-- Replace this div with <img src="assets/diagrams/analysis-suite.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
-  <div class="diagram-slot dark wide">full-width architecture diagram</div>
-  <p>The architecture is described here at the level of components and data flow: a scheduled extraction layer against each SAP interface, a normalisation step that reconciles differing field names and units across releases, and a comparison layer that the trend views are built on top of.</p>
+  <div class="prose">
+    <p>Four integrated tools behind a single Flask/Waitress backend, each exporting server-side to a polished PowerPoint, Word or Excel deliverable via <code>python-pptx</code>, <code>python-docx</code> and <code>xlsxwriter</code> — streamed to the browser and deleted from disk immediately after, so no report or raw customer data sits on the server.</p>
+  </div>
+  <div class="screenshot-frame">
+    <div class="screenshot-frame-bar"><span></span><span></span><span></span></div>
+    <img src="assets/img/analysis-suite-home.png" alt="Analysis Tool Suite dashboard home screen, showing the SMON Dashboard, Workload Analyzer, Component Mapper and Background Job Analyser tool cards">
+  </div>
+  <div class="tool-cards">
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">SMON Analysis Dashboard</span><span class="tool-card-tag">PPTX / DOCX</span></div>
+      <p>Interactive time-series charts across CPU, memory and response time, per instance and per logon group.</p>
+      <ul><li>Automated anomaly-detection insights engine</li><li>Drag-and-drop system landscape builder</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">Workload Baseline Analyzer</span><span class="tool-card-tag">XLSX</span></div>
+      <p>ST03N deep-dive handling exports up to 50,000+ rows via chunked server-side processing.</p>
+      <ul><li>P5–P95 trimmed statistics, 7 analytical views</li><li>Automated regression test-plan generator</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">Component Mapper</span><span class="tool-card-tag">XLSX</span></div>
+      <p>Pattern-matches transactions, jobs and programs to SAP components and business-process areas.</p>
+      <ul><li>130+ SAP component codes covered</li><li>Multi-SID support with user override</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">Background Job Analyser</span><span class="tool-card-tag">DOCX</span></div>
+      <p>Parses SM13 exports, including the DBF-variant binary format, into a KPI summary and timeline.</p>
+      <ul><li>Gantt-style timeline per application server</li><li>Recurrence-anomaly detection</li></ul>
+    </div>
+  </div>
+
+  <h2 id="architecture">Architecture</h2>
+  <div class="diagram-wrap">
+    <img src="assets/diagrams/analysis-suite.svg" alt="Browser tools calling a Flask API layer with security middleware, backed by analysis and export engines, deployed behind lighttpd and Waitress">
+  </div>
+  <div class="prose">
+    <p>Browser-side tools call a Flask/Waitress API behind CSRF and security-header middleware, which hands off to dedicated analysis and export engines before streaming the result back and deleting the temp file. A three-tier test pyramid (pytest for the Flask layer, Jest for JS parsing logic, Selenium for end-to-end browser flows) covers it in production.</p>
+  </div>
 
   <h2 id="outcome">Outcome</h2>
-  <p>Used as the reference dataset for load-test sign-off across two major upgrade cycles. The code and any customer-specific detail are proprietary; this page describes the architecture and the problem it solved, not the implementation.</p>
+  <div class="outcome-box">
+    <p>Deployed globally across SAP's service-delivery organisation. Consultants save roughly 8 hours a week that used to go into manual CSV processing and report-building, and a complete stakeholder-ready deck now takes under 30 seconds to generate from a raw upload, down from 2–3 hours per engagement checkpoint. The code and any customer-specific detail are proprietary; this page describes the architecture and the problem it solved, not the implementation.</p>
+  </div>
 
   <footer class="detail-footer">
     <a href="index.html">← Back to projects</a>
     <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
   </footer>
 </article>
+<script>
+  document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * target);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+</script>
 </body>
 </html>

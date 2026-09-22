@@ -1,0 +1,83 @@
+<svg viewBox="0 0 1400 520" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="Four tools in the browser calling a Flask API layer with security middleware, backed by analysis and export engines, deployed behind lighttpd and Waitress">
+  <defs>
+    <marker id="arr2" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#74c7b8"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="520" rx="10" fill="#161513"/>
+
+  <!-- LAYER 1 — BROWSER -->
+  <text x="40" y="26" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">LAYER 1 — BROWSER</text>
+  <g font-family="'JetBrains Mono', monospace">
+    <rect x="40" y="38" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="197" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">SMON Dashboard</text>
+    <text x="197" y="86" text-anchor="middle" font-size="10.5" fill="#8f8a80">charts · landscape · insights</text>
+
+    <rect x="375" y="38" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="532" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">Workload Analyzer</text>
+    <text x="532" y="86" text-anchor="middle" font-size="10.5" fill="#8f8a80">7 views · heatmap · test plans</text>
+
+    <rect x="710" y="38" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="867" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">Component Mapper</text>
+    <text x="867" y="86" text-anchor="middle" font-size="10.5" fill="#8f8a80">BPA mapping · overrides</text>
+
+    <rect x="1045" y="38" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="1202" y="66" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">BG Job Analyser</text>
+    <text x="1202" y="86" text-anchor="middle" font-size="10.5" fill="#8f8a80">gantt · anomalies · WP util</text>
+  </g>
+
+  <line x1="700" y1="104" x2="700" y2="146" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr2)"/>
+  <text x="716" y="120" font-family="'JetBrains Mono', monospace" font-size="11" fill="#74c7b8">CSRF-protected fetch</text>
+  <text x="716" y="134" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">smonPost() / smonDownload()</text>
+
+  <!-- LAYER 2 — FLASK API -->
+  <text x="40" y="168" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">LAYER 2 — FLASK API · PYTHON 3 + WAITRESS</text>
+  <g font-family="'JetBrains Mono', monospace">
+    <rect x="40" y="180" width="410" height="60" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="245" y="206" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">Page routes</text>
+    <text x="245" y="224" text-anchor="middle" font-size="10.5" fill="#8f8a80">/ · /smon · /workload · /bg-jobs</text>
+
+    <rect x="495" y="180" width="410" height="60" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="700" y="206" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">Export APIs</text>
+    <text x="700" y="224" text-anchor="middle" font-size="10.5" fill="#8f8a80">POST /api/export/* · 5 endpoints</text>
+
+    <rect x="950" y="180" width="410" height="60" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="1155" y="206" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">Analysis APIs</text>
+    <text x="1155" y="224" text-anchor="middle" font-size="10.5" fill="#8f8a80">POST /api/workload/* · /api/match</text>
+  </g>
+
+  <rect x="40" y="250" width="1320" height="32" rx="6" fill="#1b1a18" stroke="#74c7b8" stroke-width="1.5" stroke-dasharray="7 4"/>
+  <text x="700" y="270" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#74c7b8">Security middleware — CSRF tokens · CSP / X-Frame / HSTS headers · auth token · export semaphore (max 3 concurrent)</text>
+
+  <line x1="700" y1="282" x2="700" y2="318" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr2)"/>
+  <text x="716" y="304" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">direct Python calls</text>
+
+  <!-- LAYER 3 — ANALYSIS & EXPORT ENGINES -->
+  <text x="40" y="338" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">LAYER 3 — ANALYSIS &amp; EXPORT ENGINES</text>
+  <g font-family="'JetBrains Mono', monospace">
+    <rect x="40" y="350" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="197" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">ppt_exporter</text>
+    <text x="197" y="398" text-anchor="middle" font-size="10.5" fill="#8f8a80">PPTX · monitoring + landscape slides</text>
+
+    <rect x="375" y="350" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="532" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">word_exporter</text>
+    <text x="532" y="398" text-anchor="middle" font-size="10.5" fill="#8f8a80">DOCX · ISD-HUB / BG job reports</text>
+
+    <rect x="710" y="350" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="867" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">xlsx_exporter</text>
+    <text x="867" y="398" text-anchor="middle" font-size="10.5" fill="#8f8a80">XLSX · styled component tables</text>
+
+    <rect x="1045" y="350" width="315" height="66" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+    <text x="1202" y="378" text-anchor="middle" font-size="13" font-weight="600" fill="#e8e4dc">workload_analyze</text>
+    <text x="1202" y="398" text-anchor="middle" font-size="10.5" fill="#8f8a80">Python engine · P5–P95 stats</text>
+  </g>
+
+  <line x1="700" y1="416" x2="700" y2="452" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr2)"/>
+  <text x="716" y="438" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">_send_and_delete() → temp file → binary stream → browser download</text>
+
+  <!-- LAYER 4 — PRODUCTION INFRA -->
+  <rect x="40" y="464" width="1320" height="36" rx="6" fill="#1b1a18" stroke="#74c7b8" stroke-width="1.5"/>
+  <text x="700" y="487" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#74c7b8">Production infra: lighttpd (TLS 443) → Waitress WSGI (loopback)  ·  env-var config  ·  ProxyFix middleware</text>
+</svg>

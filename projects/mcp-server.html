@@ -17,41 +17,87 @@
 
   <div class="detail-status">Architecture writeup · proprietary</div>
   <h1>S/4HANA Monitoring MCP Server</h1>
-  <div class="detail-tags"><span>Python</span><span>MCP</span><span>RFC</span><span>OData</span><span>S/4HANA 2023</span></div>
+  <p class="detail-tagline">Live SAP performance data, exposed to AI agents over the Model Context Protocol.</p>
+  <div class="detail-tags"><span>Python</span><span>MCP</span><span>RFC</span><span>pyrfc</span><span>Docker</span></div>
+
+  <div class="stat-bar">
+    <div class="stat-tile"><span class="stat-value" data-target="4">0</span><span class="stat-label">MCP tools exposed</span></div>
+    <div class="stat-tile"><span class="stat-value">~17 hrs</span><span class="stat-label">SMON history per query</span></div>
+    <div class="stat-tile"><span class="stat-value">30 sec</span><span class="stat-label">Collection granularity</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="3">0</span><span class="stat-label">RFC connections pooled</span></div>
+  </div>
 
   <h2 id="problem">Problem</h2>
-  <p>SAP Solution Manager and the standard Basis transactions (ST03N, ST06, SM50, ST22) expose a large amount of runtime data, but only to a human sitting at the SAP GUI. An AI agent asked to triage a performance regression has no way to read work-process state, dialog response times or short dumps without someone copying screens into the conversation.</p>
-  <p>The goal was a narrow, read-only bridge: expose the monitoring surface a Basis administrator actually consults, in a form an agent can query, without opening a write path into a production system.</p>
+  <div class="prose">
+    <p>The standard Basis transactions (ST03/ST03N, SM50, SM66, /SDF/SMON) expose work-process load, memory pressure, dialog response times and queue depth, but only to a human sitting at the SAP GUI — and only one screen at a time. An AI agent asked to triage a performance regression has no way to read that state without someone copying screens into the conversation, and there's no standard REST or OData layer to fall back on: this data lives behind SAP's RFC protocol.</p>
+    <p>The goal was a narrow, read-only bridge: expose the same monitoring surface a Basis administrator already consults, in a form an MCP-compatible agent can query directly — including SAP's own Joule assistant, which can register external MCP servers as custom connectors.</p>
+  </div>
 
   <h2 id="approach">Approach</h2>
-  <p>The server implements the Model Context Protocol and exposes each monitoring domain as a tool with a typed schema: work-process overview, dialog and background response-time statistics, ABAP short dumps, tablespace growth and transport queue state. Every tool maps onto an existing SAP interface, RFC-enabled function modules where they exist and OData services from the S/4HANA monitoring APIs where they do not, and returns compact JSON rather than the raw screen layout.</p>
-  <p>A thin caching layer keeps polling load on the target system below what a single administrator refreshing SM66 would generate. Tool descriptions are written for the model, not for documentation: each states what question it answers and which parameters narrow the result.</p>
-  <pre>tools:
-  - get_workprocess_overview   # SM50 / SM66
-  - get_response_time_stats    # ST03N, dialog + background
-  - list_short_dumps           # ST22, last 24h by default
-  - get_tablespace_growth      # DB02
-  - get_transport_queue        # STMS</pre>
+  <div class="prose">
+    <p>The server is built on FastMCP 2.0 (Python 3.12) and exposes four tools, each a thin wrapper over a real RFC function module rather than a REST abstraction. <code>pyrfc</code> wraps SAP's native NW RFC SDK C library directly — there's no REST API, OData service or middleware translating in between. Every tool call is a raw RFC invocation, the same kind SAP GUI itself issues.</p>
+  </div>
+  <div class="tool-cards">
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">get_system_info</span><span class="tool-card-tag">RFC_SYSTEM_INFO</span></div>
+      <p>Establishes system identity before any monitoring call runs — the first tool any agent calls to know which system it's talking to.</p>
+      <ul><li>System ID, hostname, instance number</li><li>SAP release and ABAP kernel version</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">get_workload_statistics</span><span class="tool-card-tag">SWNC_COLLECTOR_GET_AGGREGATES</span></div>
+      <p>The same aggregation transaction ST03 uses — step counts, response times and DB load by task type.</p>
+      <ul><li>Steps, response time and CPU time by task type</li><li>Filterable by task type and server name</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">get_smon_snapshots</span><span class="tool-card-tag">RFC_READ_TABLE</span></div>
+      <p>Reads <code>/SDF/SMON_HEADER</code> for up to ~17 hours of system health history at 30-second granularity.</p>
+      <ul><li>CPU, memory and queue-depth time series</li><li>Time-range and instance filters</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">get_work_process_status</span><span class="tool-card-tag">TH_WPINFO</span></div>
+      <p>Live work-process state across every application server instance in one call, not just the instance the connection landed on.</p>
+      <ul><li>Process type, status, current user and program</li><li>CPU time elapsed and wait time</li></ul>
+    </div>
+  </div>
 
   <h2 id="architecture">Architecture</h2>
-  <!-- Replace this div with <img src="../assets/diagrams/mcp-server.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
-  <div class="diagram-slot dark wide">full-width architecture diagram</div>
-  <p>Three layers: the MCP transport (stdio or HTTP), a domain layer that turns tool calls into normalised queries, and an adapter layer with one module per SAP interface. Credentials never reach the model. The adapter holds a technical user with display-only authorisations, and every call is logged with tool name and parameters for audit.</p>
+  <div class="diagram-wrap">
+    <img src="../assets/diagrams/mcp-server.svg" alt="Five layers from AI clients through the FastMCP server, RFC connection pool and RFC transport to the SAP S/4HANA application server">
+  </div>
+  <div class="prose">
+    <p>Five layers sit between an AI client and the SAP kernel. AI clients — SAP Joule, Claude or another LLM, or any generic MCP client — talk to the FastMCP server over streamable HTTP on port 8000. The server calls into a thread-safe RFC connection pool of three connections with lazy initialisation; the pool talks to the SAP system over the RFC binary protocol on port 33xx, optionally through a SAPRouter proxy for multi-hop routes; that lands on the SAP S/4HANA application server, where the four function modules actually run.</p>
+  </div>
 
   <h2 id="decisions">Key decisions and tradeoffs</h2>
-  <div class="decision-list">
-    <p><strong>Read-only by construction.</strong> No tool can start a transaction or change a parameter. The agent can diagnose but not remediate, which is the intended boundary for a first deployment.</p>
-    <p><strong>Summarise in the adapter, not the prompt.</strong> Fixed schemas and pre-aggregated results cost fewer tokens and behave predictably. Rarely needed columns are dropped and must be requested through a separate detail tool.</p>
-    <p><strong>Per-tool rate limits tuned to ST03N averages.</strong> Limits are set from the observed load of a human administrator, so the server can never be the heaviest dialog user on the system.</p>
+  <div class="decision-cards">
+    <div class="decision-card"><strong>RFC over a REST/OData layer.</strong><p>No REST or OData service in S/4HANA exposes work-process, SMON or short-dump data at the granularity ST03/SM50 show. Wrapping the RFC SDK directly via <code>pyrfc</code> means shipping a compiled SDK per platform (<code>nwrfcsdk.dll</code> / <code>librfccm.so</code>) instead of a lighter HTTP dependency, but it's the same protocol SAP GUI has used since the R/3 era — no missing data, no translation layer to maintain.</p></div>
+    <div class="decision-card"><strong>Fixed-width binary row parsing.</strong><p><code>RFC_READ_TABLE</code> returns <code>/SDF/SMON_HEADER</code> rows as fixed-width character strings with no structure of their own. The server reconstructs records from the <code>FIELDS</code> metadata table's byte offsets and lengths at read time — the same approach SAP's own ABAP programs use internally — rather than pushing that parsing onto the caller.</p></div>
+    <div class="decision-card"><strong>Connection pool with dead-connection recovery.</strong><p>The server runs as a long-lived container, and SAP closes idle RFC sessions after a configurable timeout, which surfaces as <code>RFC_CLOSED</code> or a reset error on the next call. The pool detects a dead connection, discards it, opens a replacement and retries once, transparently to the caller, so a container running for weeks doesn't need manual intervention.</p></div>
+    <div class="decision-card"><strong>SAPRouter support via environment variables.</strong><p>Production SAP systems are rarely reachable directly — enterprise landscapes route through SAPRouter, sometimes multiple hops. SAPRouter route strings are first-class configuration rather than a code path, so the same server handles direct, load-balanced and multi-hop-proxied connections without redeployment.</p></div>
   </div>
 
   <h2 id="outcome">Outcome</h2>
-  <p>Deployed against a development S/4HANA landscape. Triage that took 20–30 minutes of GUI navigation completes in a single agent turn with the relevant statistics attached. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+  <div class="outcome-box">
+    <p>Running against a real S/4HANA system rather than a sandbox, the server has cut triage that used to mean 20–30 minutes of GUI navigation down to a single agent turn with the relevant statistics attached. It's also registrable as a custom connector in SAP Joule Work Desktop, so SAP's own AI assistant can answer "is the system under load right now?" using live RFC data from inside the same system it's embedded in. The code is proprietary; this writeup covers the architecture and the decisions, not the implementation.</p>
+  </div>
 
   <footer class="detail-footer">
     <a href="index.html">← All projects</a>
     <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
   </footer>
 </article>
+<script>
+  document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * target);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+</script>
 </body>
 </html>
