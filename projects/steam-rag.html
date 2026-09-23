@@ -13,36 +13,99 @@
   <nav class="detail-nav">
     <a href="../index.html">← Matthew Heath</a>
     <a href="index.html">All projects</a>
+    <a href="https://github.com/Heathins98/steam-achievement-rag">GitHub</a>
   </nav>
 
-  <!-- TODO: repo isn't public yet — once pushed, change this to "Project writeup" and add a GitHub link back in the nav above -->
-  <div class="detail-status">No public repo yet</div>
+  <div class="detail-status">Project writeup</div>
   <h1>Steam Achievement RAG</h1>
-  <div class="detail-tags"><span>Python</span><span>embeddings</span><span>vector search</span></div>
+  <p class="detail-tagline">Answers "how do I get this achievement?" for Halo: The Master Chief Collection, grounding generated answers in Steam Community Guides.</p>
+  <div class="detail-tags"><span>Python</span><span>PostgreSQL + pgvector</span><span>Claude API</span><span>RAG</span></div>
+
+  <div class="stat-bar">
+    <div class="stat-tile"><span class="stat-value">~700</span><span class="stat-label">Known achievements indexed</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="100">0</span><span class="stat-label">Question gold-set eval</span></div>
+    <div class="stat-tile"><span class="stat-value">90%</span><span class="stat-label">End-to-end accuracy</span></div>
+    <div class="stat-tile"><span class="stat-value">45%</span><span class="stat-label">Resolver-only baseline</span></div>
+  </div>
 
   <h2 id="problem">Problem</h2>
-  <p data-writeup-slot="problem">TODO — problem statement not written yet. What question over Steam achievement data couldn't be answered with a simple lookup?</p>
+  <div class="prose">
+    <p>Steam's achievement metadata is minimal — a name, a short description, a hidden flag — with nothing on how to actually earn one. Halo: The Master Chief Collection has around 700 achievements spread across its sub-games, and the real how-to knowledge for the obscure ones lives scattered across long-form Steam Community Guides, not in any structured field Steam exposes.</p>
+    <p>The question was whether a system could answer a specific achievement question accurately from that guide text — and, just as importantly, recognize when the guides don't cover an achievement and say so, rather than confidently inventing steps.</p>
+  </div>
 
   <h2 id="approach">Approach</h2>
-  <p data-writeup-slot="approach">TODO — approach not written yet. What gets embedded, what the retrieval step looks like, how results get back into a generated answer.</p>
+  <div class="prose">
+    <p>The system follows a "resolve, don't retrieve" philosophy: most questions name a specific achievement, so a cheap exact/fuzzy match against the ~700 known achievement names is tried first, before paying for anything more expensive. Only questions that don't resolve fall through to hybrid semantic search. The pipeline is five independently re-runnable stages, from raw API capture through to a scored evaluation run.</p>
+  </div>
+  <div class="tool-cards">
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">ingest/</span></div>
+      <p>Pulls raw achievement and guide data from the Steam Web API to JSON, intentionally unparsed.</p>
+      <ul><li>Achievement list via <code>ingest/achievements.py</code></li><li>Community Guides via <code>ingest/guides.py</code></li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">transform/</span></div>
+      <p>Parses, cleans, chunks and links the raw captures.</p>
+      <ul><li>Sub-game parsing and language filtering</li><li>Structure-aware chunking and achievement linking</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">index/</span></div>
+      <p>Defines the schema and turns chunk text into searchable data.</p>
+      <ul><li><code>schema.sql</code> for the four core tables</li><li>MiniLM embedding and full-text indexing</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">retrieve/</span></div>
+      <p>The resolver, hybrid search and generation pipeline an end user's question actually runs through.</p>
+      <ul><li>Exact/fuzzy resolver against known achievements</li><li>Hybrid search + cited Claude generation</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">eval/</span></div>
+      <p>Re-runnable scoring against a fixed gold set of questions.</p>
+      <ul><li>100 hand-written gold questions</li><li><code>eval/metrics.py</code> for accuracy breakdowns</li></ul>
+    </div>
+  </div>
 
   <h2 id="architecture">Architecture</h2>
-  <!-- Replace this div with <img src="../assets/diagrams/steam-rag.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
-  <div class="diagram-slot dark wide">full-width architecture diagram</div>
-  <p data-writeup-slot="architecture">TODO — architecture walkthrough not written yet.</p>
+  <div class="diagram-wrap">
+    <img src="../assets/diagrams/steam-rag.svg" alt="Resolve, hybrid-search, and generate pipeline for Steam Achievement RAG, backed by a four-table PostgreSQL and pgvector schema">
+  </div>
+  <div class="prose">
+    <p>A question first hits the resolver, which checks it against the ~700 known achievement names — exact match first, then fuzzy match. A resolved match pulls its pre-linked guide chunks directly, skipping search entirely. An unresolved question goes to hybrid search: dense vector similarity (384-dimensional MiniLM embeddings in pgvector) and PostgreSQL full-text keyword ranking run in parallel and are combined with Reciprocal Rank Fusion, since cosine similarity and BM25 scores aren't on a comparable scale. Either path lands on the same generation step, where Claude produces a cited answer from the retrieved chunks or explicitly declines when nothing relevant was found.</p>
+    <p>All of it sits on four tables in a single PostgreSQL 17 + pgvector database: <code>achievements</code> (~700 rows with name, description, hidden status, sub-game), <code>guides</code> (Community Guide metadata), <code>chunks</code> (guide text split at section boundaries, carrying both the embedding and the full-text vector), and <code>achievement_chunks</code> (the bootstrap links between achievements and the chunks that explain them).</p>
+  </div>
 
   <h2 id="decisions">Key decisions and tradeoffs</h2>
-  <div class="decision-list">
-    <p data-writeup-slot="decisions">TODO — key decisions not written yet.</p>
+  <div class="decision-cards">
+    <div class="decision-card"><strong>Resolve before retrieving.</strong><p>Most questions name a specific achievement rather than describing one vaguely. Trying exact/fuzzy matching against the known achievement list first, before any embedding or search, costs almost nothing and hits 98% accuracy on exact-name questions — reserving the expensive hybrid search path for the minority of questions that actually need it.</p></div>
+    <div class="decision-card"><strong>Reciprocal Rank Fusion, not a blended score.</strong><p>Dense cosine similarity and PostgreSQL's BM25-style full-text ranking sit on incompatible scales, so averaging or weighting the raw scores lets whichever one happens to have larger magnitude dominate. Fusing by rank instead keeps both signals meaningful without hand-tuning a weight.</p></div>
+    <div class="decision-card"><strong>One PostgreSQL database, not a separate vector store.</strong><p>Structured achievement metadata, full-text indexes and pgvector embeddings all live in the same PostgreSQL 17 instance rather than splitting vectors into a dedicated vector database. That avoids keeping two stores in sync and lets a single query join structured filters with vector search.</p></div>
+    <div class="decision-card"><strong>Structure-aware chunking, two-pass linking.</strong><p>Guides are chunked at their real section boundaries — further subdividing sections that cover multiple achievements — rather than fixed-size windows, which preserves the retrieval signal a section boundary carries. Achievement-to-chunk links are then bootstrapped in two passes: exact name match first, then description match for achievements with flavor-text names that don't literally appear in guide text.</p></div>
+    <div class="decision-card"><strong>Generation must cite and may decline.</strong><p>The generation step is required to ground its answer in the retrieved chunks with citations, and is explicitly permitted to say a guide doesn't cover the achievement rather than filling the gap with a plausible-sounding guess.</p></div>
   </div>
 
   <h2 id="outcome">Outcome</h2>
-  <p data-writeup-slot="outcome">TODO — outcome not written yet.</p>
+  <div class="outcome-box">
+    <p>Measured against a 100-question gold set, the resolver alone reaches 45% overall accuracy — 98% on exact achievement names, but only 3% on rephrased questions and 0% on vague descriptions, since it has no way to handle anything that isn't a near-literal name match. Adding hybrid search brings overall accuracy to 90%: 100% on exact names, 82% on rephrased questions, 81% on vague descriptions. That gap is the measurable case for hybrid search — it earns its cost specifically on the questions the resolver can't handle, while the resolver keeps the common case cheap and accurate. The project is unofficial and fan-made for portfolio/educational purposes, unaffiliated with Microsoft, 343 Industries, or Valve, and is MIT-licensed.</p>
+  </div>
 
   <footer class="detail-footer">
     <a href="index.html">← All projects</a>
     <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
   </footer>
 </article>
+<script>
+  document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * target);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+</script>
 </body>
 </html>
