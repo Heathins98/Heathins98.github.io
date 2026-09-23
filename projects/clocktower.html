@@ -12,38 +12,90 @@
 <article class="detail">
   <nav class="detail-nav">
     <a href="../index.html">← Matthew Heath</a>
-    <!-- TODO: confirm repo URL, then point this at the real GitHub repo -->
-    <a href="https://github.com/Heathins98">GitHub</a>
+    <a href="index.html">All projects</a>
+    <a href="https://github.com/Heathins98/BOC_Game">GitHub</a>
   </nav>
 
-  <div class="detail-status">Project writeup</div>
+  <div class="detail-status">Project writeup · in development</div>
   <h1>Blood on the Clocktower Companion</h1>
-  <!-- TODO: replace [STACK] with the real tech stack once confirmed (portfolio_plan.md open item) -->
-  <div class="detail-tags"><span>[STACK]</span></div>
+  <p class="detail-tagline">A rules engine and terminal-based multiplayer playtester for Blood on the Clocktower — the automated Storyteller and web client are still to come.</p>
+  <div class="detail-tags"><span>TypeScript</span><span>Node.js</span><span>Socket.IO</span><span>Vitest</span></div>
+
+  <div class="stat-bar">
+    <div class="stat-tile"><span class="stat-value" data-target="93">0</span><span class="stat-label">Tests (unit + simulation)</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="13">0</span><span class="stat-label">Characters implemented (Trouble Brewing)</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="30">0</span><span class="stat-label">Simulated full games</span></div>
+    <div class="stat-tile"><span class="stat-value" data-target="6">0</span><span class="stat-label">Player-count configurations covered</span></div>
+  </div>
 
   <h2 id="problem">Problem</h2>
-  <p data-writeup-slot="problem">TODO — problem statement not written yet. What made running Blood on the Clocktower by hand annoying enough to build a companion app for it?</p>
+  <div class="prose">
+    <p>Blood on the Clocktower runs entirely on a human Storyteller correctly tracking the Grimoire — every player's true character, alignment and status effects — and adjudicating characters that misregister, get poisoned, or go drunk against each other, live at the table. A single missed interaction among the Trouble Brewing script's 13 characters can go unnoticed until it changes who wins.</p>
+    <p>The question was whether that ruleset could be captured in code precisely enough to adjudicate a full game correctly — a prerequisite for eventually taking the judgment calls, not just the bookkeeping, off a human Storyteller.</p>
+  </div>
 
   <h2 id="approach">Approach</h2>
-  <p data-writeup-slot="approach">TODO — approach not written yet. What's the shape of the solution: client/server split, how state is synced across players, what the storyteller sees versus what players see?</p>
+  <div class="prose">
+    <p>The project is built headless-engine-first: the rules engine is plain TypeScript with no networking dependency at all, so night order, ability resolution and win conditions can be unit- and simulation-tested in isolation before any client exists. Only once that was trustworthy did a Socket.IO server and terminal CLI clients get layered on top, as a local multiplayer playtest tool — structured with the same rooms, reconnection primitives and event model a networked production client would need, rather than a throwaway harness.</p>
+  </div>
+  <div class="tool-cards">
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">packages/shared</span></div>
+      <p>Script and character data, shared types, and a seedable RNG used by both the engine and the playtest layer.</p>
+      <ul><li>Trouble Brewing script data</li><li>Seedable RNG for reproducible test runs</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">packages/server</span><span class="tool-card-tag">headless engine</span></div>
+      <p>The rules engine itself — Grimoire state plus the two decision-provider interfaces, with zero network code.</p>
+      <ul><li>Night order, ability resolution, win conditions</li><li>Fully unit- and simulation-tested in isolation</li></ul>
+    </div>
+    <div class="tool-card">
+      <div class="tool-card-head"><span class="tool-card-name">packages/playtest</span><span class="tool-card-tag">Socket.IO</span></div>
+      <p>Wraps the engine in a Socket.IO server and terminal CLI clients for real local multiplayer games.</p>
+      <ul><li>Storyteller + per-player terminal clients</li><li>Rooms/reconnection primitives matching production shape</li></ul>
+    </div>
+  </div>
 
   <h2 id="architecture">Architecture</h2>
-  <!-- Replace this div with <img src="../assets/diagrams/clocktower.svg" alt="…" style="width:100%;border-radius:8px"> keeping the wrapper -->
-  <div class="diagram-slot dark wide">full-width architecture diagram</div>
-  <p data-writeup-slot="architecture">TODO — architecture walkthrough not written yet.</p>
+  <div class="diagram-wrap">
+    <img src="../assets/diagrams/clocktower.svg" alt="A headless rules engine driven by two provider interfaces and a Grimoire, wrapped by a Socket.IO server and terminal CLI clients, running a Night, Day, Town Hall, Nominations, Execution phase loop">
+  </div>
+  <div class="prose">
+    <p>The engine's only inputs are two interfaces. <code>StorytellerDecisionProvider</code> handles rule-defined judgment calls — selecting the Fortune Teller's Red Herring, resolving Recluse/Spy misregistration. <code>PlayerChoiceProvider</code> manages player-facing ability and target choices. Both sit in front of the <code>Grimoire</code>, the single source of truth for every player's character, alignment and status effects. Because neither interface implies a transport, the engine can be driven entirely from test code.</p>
+    <p>The playtest layer wraps that engine in a Socket.IO server, implementing both provider interfaces over the network instead of in-memory, and talks to terminal CLI clients — one for the Storyteller, one per player. A game runs the same phase loop regardless of transport: Night (automatic) → Day (free discussion) → Town Hall (timed or untimed) → Nominations (sequential voting) → execution and win-condition check, then repeat.</p>
+  </div>
 
   <h2 id="decisions">Key decisions and tradeoffs</h2>
-  <div class="decision-list">
-    <p data-writeup-slot="decisions">TODO — key decisions not written yet.</p>
+  <div class="decision-cards">
+    <div class="decision-card"><strong>Headless engine before any networking.</strong><p>Provable correctness shouldn't depend on sockets or timing. The rules engine has zero network dependency, so night order, ability resolution and win conditions can be unit-tested in isolation before any client — networked or terminal — exists.</p></div>
+    <div class="decision-card"><strong>Randomized full-game simulation, not just hand-written cases.</strong><p>13 interacting characters — misregistration, poison, drunk — create combinatorial edge cases that are hard to enumerate by hand. Running 30 randomized full games across 6 player counts and 5 seeds each catches interaction bugs unit tests alone would miss.</p></div>
+    <div class="decision-card"><strong>Documented, deliberate rule deviations.</strong><p>The engine diverges from tabletop rules in two places — no per-day nomination cap, and Minions aren't automatically informed of the Demon's identity. Both are flagged explicitly in code comments and docs rather than left as an unstated gap.</p></div>
+    <div class="decision-card"><strong>A real local multiplayer harness, not a throwaway one.</strong><p>The Socket.IO server and CLI clients are built with the same rooms, reconnection primitives and event model a networked production client would need, so today's playtest tool exercises the same seams a real client eventually will, instead of a one-off test rig.</p></div>
+    <div class="decision-card"><strong>pnpm workspace split.</strong><p>Splitting <code>shared</code>, <code>server</code> and <code>playtest</code> into separate workspace packages keeps the rules engine dependency-free and independently testable from the transport layer that wraps it.</p></div>
   </div>
 
   <h2 id="outcome">Outcome</h2>
-  <p data-writeup-slot="outcome">TODO — outcome not written yet. What works today, what's missing, what you'd do differently.</p>
+  <div class="outcome-box">
+    <p>The Trouble Brewing engine — 13 characters — is complete and covered by 93 tests, including 30 randomized full-game simulations across 6 player counts and 5 seeds each; the local multiplayer playtest tool is fully functional end-to-end, so a real table can play a game with engine-enforced rules today. What isn't built yet: any web or mobile player client (terminal only, for now) and a fully automated Storyteller — a human still makes the discretionary calls through <code>StorytellerDecisionProvider</code>. Next up, in priority order: a player-facing web/mobile client, then full Storyteller automation, reconnection support, and additional scripts beyond Trouble Brewing. Code is MIT-licensed; this is an unofficial, non-commercial fan project with no affiliation to Blood on the Clocktower's creators.</p>
+  </div>
 
   <footer class="detail-footer">
     <a href="index.html">← All projects</a>
     <a href="mailto:matth19988@outlook.com">matth19988@outlook.com</a>
   </footer>
 </article>
+<script>
+  document.querySelectorAll('.stat-value[data-target]').forEach(el => {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 900;
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      el.textContent = Math.round((1 - Math.pow(1 - progress, 3)) * target);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  });
+</script>
 </body>
 </html>

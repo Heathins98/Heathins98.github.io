@@ -1,0 +1,83 @@
+<svg viewBox="0 0 1400 650" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="A headless rules engine driven by a StorytellerDecisionProvider and a PlayerChoiceProvider through a Grimoire, wrapped by a Socket.IO server and terminal CLI clients, running a repeating Night, Day, Town Hall, Nominations, Execution phase loop">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#74c7b8"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1400" height="650" rx="10" fill="#161513"/>
+
+  <!-- PROVIDER INTERFACES -->
+  <text x="40" y="26" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">PROVIDER INTERFACES — engine inputs</text>
+
+  <rect x="40" y="38" width="640" height="60" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="360" y="62" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#e8e4dc">StorytellerDecisionProvider</text>
+  <text x="360" y="82" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">Rule-defined judgment calls — Red Herring, Recluse/Spy misregistration</text>
+
+  <rect x="720" y="38" width="640" height="60" rx="8" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="1040" y="62" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#e8e4dc">PlayerChoiceProvider</text>
+  <text x="1040" y="82" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">Player-facing ability and target choices</text>
+
+  <line x1="360" y1="98" x2="360" y2="140" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr)"/>
+  <line x1="1040" y1="98" x2="1040" y2="140" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr)"/>
+
+  <!-- RULES ENGINE -->
+  <text x="40" y="128" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">RULES ENGINE — packages/server</text>
+  <rect x="40" y="140" width="1320" height="70" rx="8" fill="#1b1a18" stroke="#74c7b8" stroke-width="1.5"/>
+  <text x="66" y="172" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#e8e4dc">Grimoire</text>
+  <text x="66" y="192" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">Single source of truth — characters, alignments, status effects. No network dependency.</text>
+  <text x="1334" y="182" text-anchor="end" font-family="'JetBrains Mono', monospace" font-size="11" fill="#74c7b8">packages/shared → script data + seedable RNG</text>
+
+  <line x1="700" y1="210" x2="700" y2="290" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr)"/>
+  <text x="716" y="254" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">packages/playtest wraps the engine over Socket.IO</text>
+
+  <!-- PLAYTEST LAYER -->
+  <text x="40" y="278" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">PLAYTEST LAYER — packages/playtest</text>
+  <rect x="40" y="290" width="1320" height="60" rx="8" fill="#1b1a18" stroke="#74c7b8" stroke-width="1.5"/>
+  <text x="66" y="316" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#e8e4dc">Socket.IO Server</text>
+  <text x="66" y="336" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">Implements both provider interfaces over the network</text>
+
+  <line x1="460" y1="350" x2="460" y2="410" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr)"/>
+  <line x1="1040" y1="350" x2="1040" y2="410" stroke="#74c7b8" stroke-width="1.75" marker-end="url(#arr)"/>
+
+  <text x="40" y="398" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">TERMINAL CLIENTS</text>
+  <rect x="180" y="410" width="560" height="50" rx="6" fill="#211f1c" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="460" y="430" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Storyteller CLI client</text>
+  <text x="460" y="448" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">help · townhall · vote · force · free-text decisions</text>
+
+  <rect x="760" y="410" width="560" height="50" rx="6" fill="#211f1c" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="1040" y="430" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Player CLI client(s)</text>
+  <text x="1040" y="448" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">ready · nominate · pass · slayer · status · vote</text>
+
+  <!-- GAME LOOP -->
+  <text x="40" y="498" font-family="'JetBrains Mono', monospace" font-size="12" letter-spacing="1.5" fill="#8f8a80" font-weight="600">GAME LOOP — driven by the engine regardless of transport</text>
+
+  <rect x="40" y="510" width="248" height="60" rx="6" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="164" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Night</text>
+  <text x="164" y="554" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">automatic ability resolution</text>
+
+  <rect x="308" y="510" width="248" height="60" rx="6" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="432" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Day</text>
+  <text x="432" y="554" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">free discussion</text>
+
+  <rect x="576" y="510" width="248" height="60" rx="6" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="700" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Town Hall</text>
+  <text x="700" y="554" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">timed or untimed</text>
+
+  <rect x="844" y="510" width="248" height="60" rx="6" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="968" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Nominations</text>
+  <text x="968" y="554" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">sequential voting</text>
+
+  <rect x="1112" y="510" width="248" height="60" rx="6" fill="#1b1a18" stroke="#2a2926" stroke-width="1.5"/>
+  <text x="1236" y="536" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" fill="#e8e4dc">Execution / Win check</text>
+  <text x="1236" y="554" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8f8a80">repeat or game over</text>
+
+  <line x1="288" y1="540" x2="308" y2="540" stroke="#74c7b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="556" y1="540" x2="576" y2="540" stroke="#74c7b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="824" y1="540" x2="844" y2="540" stroke="#74c7b8" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="1092" y1="540" x2="1112" y2="540" stroke="#74c7b8" stroke-width="1.5" marker-end="url(#arr)"/>
+
+  <path d="M1236,570 L1236,620 L164,620 L164,570" fill="none" stroke="#74c7b8" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arr)"/>
+  <text x="700" y="614" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#8f8a80">repeat</text>
+</svg>
