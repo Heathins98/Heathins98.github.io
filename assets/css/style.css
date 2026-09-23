@@ -187,6 +187,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .band {
   margin-top: 80px;
+  border-top: 2px solid var(--accent);
   background: var(--band-bg);
   color: var(--band-fg);
 }
